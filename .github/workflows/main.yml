@@ -41,10 +41,11 @@ jobs:
         run: |
           mlflow run MLproject --env-manager=local 
       
-      # Get latest run_id
+      # Get latest run_id (Arahkan ke folder MLproject/mlruns)
       - name: Get latest MLflow run_id
         run: |
-          RUN_ID=$(ls -td mlruns/0/*/ | head -n 1 | cut -d'/' -f3)
+          # Cari di dalam subfolder MLproject karena 'mlflow run' dieksekusi di sana
+          RUN_ID=$(ls -td MLproject/mlruns/0/*/ | head -n 1 | rev | cut -d'/' -f2 | rev)
           echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
           echo "Latest run_id: $RUN_ID"
           
