@@ -8,6 +8,10 @@ import warnings
 import sys
 
 if __name__ == "__main__":
+    
+    root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+    mlflow.set_tracking_uri(f"file://{root_path}/mlruns")
+
     warnings.filterwarnings("ignore")
     np.random.seed(40)
 
@@ -26,8 +30,7 @@ if __name__ == "__main__":
     n_estimators = int(sys.argv[1]) if len(sys.argv) > 1 else 505
     max_depth = int(sys.argv[2]) if len(sys.argv) > 2 else 37
 
-
-    with mlflow.start_run(nested=True):
+    with mlflow.start_run():
         model = RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth)
         model.fit(X_train, y_train)
 
